@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Container } from './styles';
-import AddForm from '../../components/Forms/AddForm';
+import SearchForm from '../../components/Forms/SearchForm';
 
 const Home: React.FC = () => (
   <Container>
-    <AddForm />
+    <SearchForm />
   </Container>
 );
 
