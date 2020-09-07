@@ -17,13 +17,13 @@ export default createGlobalStyle`
     width: 100vw;
     max-width: 100%;
     min-height: 100vh;
-    background-color: rgb(237,239,247);
+    /* background-color: rgb(237,239,247); */
   }
 
   html {
-    color: #171C35;
+    /* color: #171C35; */
     font-size: 10px;
-    /* font-family: 'Work Sans', sans-serif; */
+    font-family: 'Roboto', sans-serif;
     letter-spacing: -0.3px;
   }
 
@@ -31,6 +31,8 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     scrollbar-width: thin;
     scrollbar-color: #90A4AE #CFD8DC;
+    /* font-family: 'Roboto', sans-serif; */
+
   }
 
   body::-webkit-scrollbar {
@@ -49,6 +51,8 @@ export default createGlobalStyle`
 
   body, input, button {
     font: 1.6rem;
+    font-weight: 500;
+    color: #333; 
   }
 
   a {
@@ -61,10 +65,8 @@ export default createGlobalStyle`
   }
 
   h2 {
-    /* font-family: 'Poppins', sans-serif; */
-    color: white;
-    font-weight: 600;
-    font-size: 38px;
+    font-weight: 400;
+    font-size: 20px;
     line-height: 48px;
   }
 
@@ -88,5 +90,7 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+    box-shadow: none;
+    border: none;
   }
 `;
