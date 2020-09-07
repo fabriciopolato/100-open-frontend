@@ -20,6 +20,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/prop-types": "ignore",
         "react/jsx-filename-extension": [
             1,
             {
@@ -28,14 +29,32 @@
                 ]
             }
         ],
-        "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
-        // "import/extensions": [
-        //     "error",
-        //     "ignorePackages",
-        //     {
-        //         "ts": "never",
-        //         "tsx": "never"
-        //     }
-        // ]
+        "import/no-unresolved": [
+            2,
+            {
+                "commonjs": true,
+                "amd": true
+            }
+        ],
+        "import/extensions": [
+            "error",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "import/prefer-default-export": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
     }
 }
