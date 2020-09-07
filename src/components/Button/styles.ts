@@ -5,6 +5,7 @@ interface StyledButtonProps {
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
+  height: 55px;
   padding: 15px;
   color: white;
   text-transform: uppercase;
