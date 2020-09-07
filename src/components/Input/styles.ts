@@ -13,5 +13,7 @@ export const Container = styled.div`
   input {
     height: 43px;
     font-size: 1rem;
+    margin-bottom: 16px;
+    border: solid 2px #eee;
   }
 `;
