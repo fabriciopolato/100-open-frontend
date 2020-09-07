@@ -1,4 +1,3 @@
-export * from './SearchForm'
-export * from './AddForm'
-export * from './EditForm'
-
+export { default as SearchForm } from './SearchForm';
+export { default as AddForm } from './AddForm';
+export { default as EditForm } from './EditForm';
