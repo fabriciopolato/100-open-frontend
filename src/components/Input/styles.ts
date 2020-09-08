@@ -6,8 +6,10 @@ export const Container = styled.div`
   width: 100%;
 
   label {
+    font-weight: bold;
     margin-bottom: 5px;
     font-size: 1.5rem;
+    color: #939393;
   }
 
   input {
