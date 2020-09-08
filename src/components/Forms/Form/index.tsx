@@ -1,8 +1,7 @@
 import React, { FormHTMLAttributes } from 'react';
-import { MdKeyboardArrowLeft } from 'react-icons/md';
 
-import { FormContainer, Header, Content } from './styles';
-import { Button } from '../..';
+import { FormContainer, Content } from './styles';
+import { Button, Header } from '../..';
 
 interface IProps extends FormHTMLAttributes<HTMLFormElement> {
   buttonText?: string;
@@ -16,10 +15,7 @@ const Form: React.FC<IProps> = ({
   ...rest
 }) => (
   <FormContainer {...rest}>
-    <Header>
-      {withBackArrow && <MdKeyboardArrowLeft size={35} />}
-      <h1>startups</h1>
-    </Header>
+    <Header withBackArrow={withBackArrow} />
     <Content>
       {children}
       <Button>{buttonText}</Button>
