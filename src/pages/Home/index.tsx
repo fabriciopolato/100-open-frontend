@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Container } from './styles';
-import SearchForm from '../../components/Forms/SearchForm';
+import { SearchForm } from '../../components';
 
 const Home: React.FC = () => (
   <Container>
