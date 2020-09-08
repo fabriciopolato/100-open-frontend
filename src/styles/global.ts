@@ -51,7 +51,7 @@ export default createGlobalStyle`
 
   body, input, button {
     font: 1.6rem;
-    font-weight: 500;
+    font-weight: 400;
     color: #333; 
   }
 
@@ -66,8 +66,7 @@ export default createGlobalStyle`
 
   h2 {
     font-weight: 400;
-    font-size: 20px;
-    line-height: 48px;
+    font-size: 18px;
   }
 
   h4 {
