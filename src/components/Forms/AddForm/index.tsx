@@ -6,7 +6,7 @@ import { Input } from '../..';
 
 const AddForm: React.FC = () => (
   <Container>
-    <Form>
+    <Form withBackArrow>
       <Input name="name" type="text" label="Nome da startup" />
       <Input name="type" type="text" label="Tipo" />
       <Input name="location" type="text" label="Localização" />
