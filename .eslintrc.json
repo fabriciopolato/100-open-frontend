@@ -29,6 +29,7 @@
         "prettier"
     ],
     "rules": {
+        "no-underscore-dangle":"off",
         "@typescript-eslint/no-unused-vars": [
             "off"
           ],
