@@ -1,7 +1,7 @@
 import React, { FormHTMLAttributes } from 'react';
 
 import { FormContainer, Content } from './styles';
-import { Button, Header } from '../..';
+import { Header } from '../..';
 
 interface IProps extends FormHTMLAttributes<HTMLFormElement> {
   withBackArrow?: boolean;
