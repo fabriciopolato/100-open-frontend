@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import { Container, SearchContainer, SearchInput } from './styles';
 import Form from '../Form';
 import { Button, StartupCard } from '../..';
@@ -13,11 +14,16 @@ const SearchForm: React.FC = () => (
           <input type="text" name="search" />
           <Button type="submit">buscar</Button>
         </SearchInput>
-        <StartupCard />
+        <Link to="/editar/1">
+          <StartupCard />
+        </Link>
         <StartupCard />
         <StartupCard />
         <StartupCard />
       </SearchContainer>
+      <Link to="/criar-startup">
+        <Button>adicionar startups</Button>
+      </Link>
     </Form>
   </Container>
 );
