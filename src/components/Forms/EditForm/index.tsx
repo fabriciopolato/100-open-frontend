@@ -9,7 +9,9 @@ const EditForm: React.FC = () => (
     <StartupInfo>
       <h2>Nome da Empresa</h2>
       <p>Descrição</p>
-      <Button backgroundColor="#f24545">marcar como inativa</Button>
+      <Button type="submit" backgroundColor="#f24545">
+        marcar como inativa
+      </Button>
     </StartupInfo>
     <Form>
       <fieldset>
@@ -17,7 +19,7 @@ const EditForm: React.FC = () => (
         <Input name="type" type="text" label="Tipo" />
         <Input name="location" type="text" label="Localização" />
       </fieldset>
-      <Button>editar startup</Button>
+      <Button type="submit">editar startup</Button>
     </Form>
   </Container>
 );
