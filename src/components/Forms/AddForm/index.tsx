@@ -2,13 +2,16 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { Container } from './styles';
+import BounceLoader from 'react-spinners/BounceLoader';
+import { Container, StyledLoader } from './styles';
 import Form from '../Form';
 import { Input, Button } from '../..';
 import { api } from '../../../services/api';
+import { useCompany } from '../../../hooks/company';
 
 const AddForm: React.FC = () => {
   const history = useHistory();
+  const { isLoading, setIsLoading } = useCompany();
 
   const { handleChange, handleBlur, handleSubmit, values } = useFormik({
     initialValues: {
@@ -18,6 +21,7 @@ const AddForm: React.FC = () => {
       location: '',
     },
     onSubmit: async ({ name, description, type, location }) => {
+      setIsLoading(true);
       try {
         await api.post(`/company`, {
           name,
@@ -25,10 +29,13 @@ const AddForm: React.FC = () => {
           type,
           location,
         });
-        history.push('/');
       } catch (error) {
         console.log(error);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+        history.push('/');
+      }, 1500);
     },
   });
 
@@ -67,7 +74,13 @@ const AddForm: React.FC = () => {
           label="Localização"
           value={values.location}
         />
-        <Button type="submit">adicionar startup</Button>
+        {isLoading ? (
+          <StyledLoader>
+            <BounceLoader size={60} color="#45aaf2" />
+          </StyledLoader>
+        ) : (
+          <Button type="submit">adicionar startup</Button>
+        )}
       </Form>
     </Container>
   );

@@ -6,10 +6,12 @@ import { useHistory } from 'react-router-dom';
 import { Container } from './styles';
 import { SignForm } from '../../components/Forms';
 import { useAuth } from '../../hooks/auth';
+import { useCompany } from '../../hooks/company';
 
 const Signup: React.FC = () => {
   const history = useHistory();
   const { signUp } = useAuth();
+  const { setIsLoading } = useCompany();
 
   const {
     handleChange,
@@ -18,23 +20,26 @@ const Signup: React.FC = () => {
     values,
     errors,
     touched,
-    isSubmitting,
-    resetForm,
-    status,
-    setStatus,
+    setFieldError,
   } = useFormik({
     initialValues: {
       username: '',
       password: '',
+      general: '',
     },
     onSubmit: async ({ username, password }) => {
+      setIsLoading(true);
+
       try {
         await signUp({ username, password });
-
-        history.push('/');
       } catch (error) {
+        setFieldError('general', error.message);
         console.log(error);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+        history.push('/');
+      }, 1500);
     },
     validationSchema: yup.object().shape({
       username: yup.string().required('Username é obrigatório'),
@@ -47,11 +52,13 @@ const Signup: React.FC = () => {
 
   return (
     <Container>
+      {/* <h1>SIGN UP</h1> */}
       <SignForm
+        signText="SIGN UP"
         buttonText="Cadastrar"
         handleChange={handleChange}
         handleBlur={handleBlur}
-        handleSubmit={handleSubmit}
+        handleSignSubmit={handleSubmit}
         values={values}
         errors={errors}
         touched={touched}

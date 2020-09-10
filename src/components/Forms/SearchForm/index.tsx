@@ -23,13 +23,14 @@ import { useCompany } from '../../../hooks/company';
 const SearchForm: React.FC = () => {
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const {
     companiesRepository,
     handleSearchedCompanies,
     handleCurrentCompany,
     setCompaniesRepository,
+    isLoading,
+    setIsLoading,
   } = useCompany();
 
   useEffect(() => {

@@ -6,10 +6,12 @@ import { useHistory } from 'react-router-dom';
 import { Container } from './styles';
 import { SignForm } from '../../components';
 import { useAuth } from '../../hooks/auth';
+import { useCompany } from '../../hooks/company';
 
 const Login: React.FC = () => {
   const history = useHistory();
   const { signIn } = useAuth();
+  const { setIsLoading } = useCompany();
 
   const {
     handleChange,
@@ -24,13 +26,16 @@ const Login: React.FC = () => {
       password: '',
     },
     onSubmit: async ({ username, password }) => {
+      setIsLoading(true);
       try {
         await signIn({ username, password });
-
-        history.push('/');
       } catch (error) {
         console.log(error);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+        history.push('/');
+      }, 1500);
     },
     validationSchema: yup.object().shape({
       username: yup.string().required('Username é obrigatório'),
@@ -44,10 +49,11 @@ const Login: React.FC = () => {
   return (
     <Container>
       <SignForm
+        signText="LOGIN"
         buttonText="Entrar"
         handleChange={handleChange}
         handleBlur={handleBlur}
-        handleSubmit={handleSubmit}
+        handleSignSubmit={handleSubmit}
         values={values}
         errors={errors}
         touched={touched}

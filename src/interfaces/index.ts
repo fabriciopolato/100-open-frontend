@@ -22,8 +22,9 @@ export interface ILocation {
 }
 
 export interface ISignFormProps {
+  signText: string;
   buttonText: string;
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  handleSignSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
   handleBlur: {
     (e: React.FocusEvent<any>): void;
     <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;

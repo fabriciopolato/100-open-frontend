@@ -1,20 +1,26 @@
 import React from 'react';
-import { Container } from './styles';
+import BounceLoader from 'react-spinners/BounceLoader';
+import { Container, StyledError, StyledLoader } from './styles';
 import { Input, Button } from '../..';
 import { ISignFormProps } from '../../../interfaces';
+import { useCompany } from '../../../hooks/company';
 
 const SignForm: React.FC<ISignFormProps> = ({
+  signText,
   buttonText,
-  handleSubmit,
+  handleSignSubmit,
   handleChange,
   handleBlur,
   values,
   touched,
   errors,
 }) => {
+  const { isLoading } = useCompany();
+
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
+      <h1>{signText}</h1>
+      <form onSubmit={handleSignSubmit}>
         <Input
           name="username"
           label="Username"
@@ -22,7 +28,9 @@ const SignForm: React.FC<ISignFormProps> = ({
           onBlur={handleBlur}
           value={values.username}
         />
-        {errors.username && touched.username ? <p>{errors.username}</p> : null}
+        {errors.username && touched.username ? (
+          <StyledError>{errors.username}</StyledError>
+        ) : null}
         <Input
           type="password"
           name="password"
@@ -32,8 +40,13 @@ const SignForm: React.FC<ISignFormProps> = ({
           value={values.password}
         />
         {errors.password && touched.password ? <p>{errors.password}</p> : null}
-        <Button type="submit">{buttonText}</Button>
-        <pre>{JSON.stringify(values, null, 2)}</pre>
+        {isLoading ? (
+          <StyledLoader>
+            <BounceLoader size={60} color="#45aaf2" />
+          </StyledLoader>
+        ) : (
+          <Button type="submit">{buttonText}</Button>
+        )}
       </form>
     </Container>
   );

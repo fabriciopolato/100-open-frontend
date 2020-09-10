@@ -46,3 +46,9 @@ export const Form = styled.form`
     width: 100%;
   }
 `;
+
+export const StyledLoader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;

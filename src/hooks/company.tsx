@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ICompany } from '../interfaces';
 import { api } from '../services/api';
 
@@ -9,6 +10,8 @@ export interface IContext {
   currentCompany: ICompany;
   handleCurrentCompany(company: ICompany): void;
   setCompaniesRepository: React.Dispatch<React.SetStateAction<ICompany[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CompanyContext = createContext<IContext>({} as IContext);
@@ -20,6 +23,9 @@ const CompanyProvider: React.FC = ({ children }) => {
   const [currentCompany, setCurrentCompany] = useState<ICompany>(
     {} as ICompany,
   );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
 
   const handleCurrentCompany = (company: ICompany) => {
     setCurrentCompany(company);
@@ -35,7 +41,17 @@ const CompanyProvider: React.FC = ({ children }) => {
   };
 
   const handleInactivity = async (id: string) => {
-    await api.put(`/company/vote/${id}`);
+    setIsLoading(true);
+    try {
+      await api.put(`/company/vote/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+    // setTimeout used only to show Loader on screen
+    setTimeout(() => {
+      setIsLoading(false);
+      history.push('/');
+    }, 1500);
   };
 
   return (
@@ -47,6 +63,8 @@ const CompanyProvider: React.FC = ({ children }) => {
         companiesRepository,
         handleSearchedCompanies,
         handleInactivity,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

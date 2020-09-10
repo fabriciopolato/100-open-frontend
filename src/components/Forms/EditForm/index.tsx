@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { Container, StartupInfo, Form } from './styles';
+import BounceLoader from 'react-spinners/BounceLoader';
+import { Container, StartupInfo, Form, StyledLoader } from './styles';
 import { Input, Button, Header } from '../..';
 import { useCompany } from '../../../hooks/company';
 import { api } from '../../../services/api';
 
 const EditForm: React.FC = () => {
-  const { handleInactivity, currentCompany } = useCompany();
-
+  const [isLoadingEdit, setIsLoadingEdit] = useState(false);
+  const { handleInactivity, currentCompany, isLoading } = useCompany();
   const { name, type, description, _id, votesForInactivity } = currentCompany;
+
   const userId = localStorage.getItem('open:userId');
 
   const history = useHistory();
@@ -21,15 +23,19 @@ const EditForm: React.FC = () => {
       companyLocation: '',
     },
     onSubmit: async ({ companyType, companyLocation }) => {
+      setIsLoadingEdit(true);
       try {
         await api.put(`/company/${_id}`, {
           type: companyType,
           location: companyLocation,
         });
-        history.push('/');
       } catch (error) {
         console.log(error);
       }
+      setTimeout(() => {
+        setIsLoadingEdit(false);
+        history.push('/');
+      }, 1500);
     },
   });
 
@@ -42,14 +48,20 @@ const EditForm: React.FC = () => {
           <span>{type}</span>
         </p>
         <p>{description}</p>
-        {!votesForInactivity.includes(userId as string) && (
-          <Button
-            onClick={() => handleInactivity(_id)}
-            type="button"
-            backgroundColor="#f24545"
-          >
-            marcar como inativa
-          </Button>
+        {isLoading ? (
+          <StyledLoader>
+            <BounceLoader size={60} color="#45aaf2" />
+          </StyledLoader>
+        ) : (
+          !votesForInactivity.includes(userId as string) && (
+            <Button
+              onClick={() => handleInactivity(_id)}
+              type="button"
+              backgroundColor="#f24545"
+            >
+              marcar como inativa
+            </Button>
+          )
         )}
       </StartupInfo>
       <Form onSubmit={handleSubmit}>
@@ -72,7 +84,13 @@ const EditForm: React.FC = () => {
             value={values.companyLocation}
           />
         </fieldset>
-        <Button type="submit">editar startup</Button>
+        {isLoadingEdit ? (
+          <StyledLoader>
+            <BounceLoader size={60} color="#45aaf2" />
+          </StyledLoader>
+        ) : (
+          <Button type="submit">editar startup</Button>
+        )}
       </Form>
     </Container>
   );
