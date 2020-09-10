@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   min-width: 500px;
+
+  a > button {
+    width: 100%;
+  }
 `;
 
 export const SearchContainer = styled.div`
@@ -28,9 +32,5 @@ export const SearchInput = styled.div`
     padding: 16px;
     font-size: 18px;
     size: 1;
-  }
-
-  button {
-    flex: 1;
   }
 `;

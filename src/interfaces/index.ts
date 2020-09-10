@@ -1,5 +1,26 @@
 import { FormikErrors, FormikTouched } from 'formik';
 
+export interface IUser {
+  username: string;
+  password: string;
+}
+
+export interface ICompany {
+  _id: string;
+  name: string;
+  type: string;
+  description?: string;
+  location?: ILocation;
+  isActive: boolean;
+  votesForInactivity: string[];
+}
+
+export interface ILocation {
+  city: string;
+  state: string;
+  country: string;
+}
+
 export interface ISignFormProps {
   buttonText: string;
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
@@ -24,9 +45,4 @@ export interface ISignFormProps {
     username: string;
     password: string;
   }>;
-}
-
-interface IUser {
-  username: string;
-  password: string;
 }
