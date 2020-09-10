@@ -1,39 +1,67 @@
-import React, {
-  createContext,
-  useState,
-  Dispatch,
-  useEffect,
-  SetStateAction,
-  FormEvent,
-} from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { ICompany } from '../interfaces';
+import { api } from '../services/api';
 
 export interface IContext {
   companiesRepository: ICompany[];
-  handleCompanies(companies: ICompany[]): void;
+  handleSearchedCompanies(search: string): Promise<void>;
+  handleInactivity(id: string): void;
+  currentCompany: ICompany;
+  handleCurrentCompany(company: ICompany): void;
+  setCompaniesRepository: React.Dispatch<React.SetStateAction<ICompany[]>>;
 }
 
-const Context = createContext<IContext>({} as IContext);
+const CompanyContext = createContext<IContext>({} as IContext);
 
 const CompanyProvider: React.FC = ({ children }) => {
   const [companiesRepository, setCompaniesRepository] = useState<ICompany[]>(
     [],
   );
+  const [currentCompany, setCurrentCompany] = useState<ICompany>(
+    {} as ICompany,
+  );
 
-  const handleCompanies = (companies: ICompany[]) => {
-    setCompaniesRepository(companies);
+  const handleCurrentCompany = (company: ICompany) => {
+    setCurrentCompany(company);
+  };
+
+  const handleSearchedCompanies = async (search: string) => {
+    const response = await api.get('/company', {
+      params: {
+        name: search,
+      },
+    });
+    setCompaniesRepository(response.data);
+  };
+
+  const handleInactivity = async (id: string) => {
+    await api.put(`/company/vote/${id}`);
   };
 
   return (
-    <Context.Provider
+    <CompanyContext.Provider
       value={{
+        setCompaniesRepository,
+        handleCurrentCompany,
+        currentCompany,
         companiesRepository,
-        handleCompanies,
+        handleSearchedCompanies,
+        handleInactivity,
       }}
     >
       {children}
-    </Context.Provider>
+    </CompanyContext.Provider>
   );
 };
 
-export { CompanyProvider, Context };
+const useCompany = (): IContext => {
+  const context = useContext(CompanyContext);
+
+  if (!context) {
+    throw new Error('useCompany must be used within an AuthProvider');
+  }
+
+  return context;
+};
+
+export { CompanyProvider, useCompany };
