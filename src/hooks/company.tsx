@@ -20,15 +20,22 @@ const CompanyProvider: React.FC = ({ children }) => {
   const [companiesRepository, setCompaniesRepository] = useState<ICompany[]>(
     [],
   );
-  const [currentCompany, setCurrentCompany] = useState<ICompany>(
-    {} as ICompany,
-  );
+  const [currentCompany, setCurrentCompany] = useState<ICompany>(() => {
+    const data = localStorage.getItem('open:currentCompany');
+
+    if (data) {
+      return JSON.parse(data);
+    }
+
+    return {} as ICompany;
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
   const handleCurrentCompany = (company: ICompany) => {
     setCurrentCompany(company);
+    localStorage.setItem('open:currentCompany', JSON.stringify(company));
   };
 
   const handleSearchedCompanies = async (search: string) => {
