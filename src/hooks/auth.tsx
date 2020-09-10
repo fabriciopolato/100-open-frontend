@@ -37,11 +37,12 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { accessToken } = response.data;
+    const { accessToken, userId } = response.data;
 
     api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     localStorage.setItem('open:accessToken', accessToken);
+    localStorage.setItem('open:userId', userId);
 
     setData({ accessToken });
   }, []);
@@ -52,17 +53,19 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { accessToken } = response.data;
+    const { accessToken, userId } = response.data;
 
     api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     localStorage.setItem('open:accessToken', accessToken);
+    localStorage.setItem('open:userId', userId);
 
     setData({ accessToken });
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('open:accessToken');
+    localStorage.removeItem('open:userId');
 
     setData({} as AuthState);
   }, []);
