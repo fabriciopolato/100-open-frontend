@@ -34,3 +34,15 @@ export const SearchInput = styled.div`
     size: 1;
   }
 `;
+
+export const StyledError = styled.p`
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 18px;
+`;
+
+export const StyledLoader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
