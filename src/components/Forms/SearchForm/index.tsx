@@ -2,32 +2,36 @@ import React, {
   useState,
   ChangeEvent,
   FormEvent,
-  useContext,
   Fragment,
+  useEffect,
 } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Container, SearchContainer, SearchInput } from './styles';
 import Form from '../Form';
 import { Button, StartupCard } from '../..';
-import { api } from '../../../services/api';
-import { Context } from '../../../hooks/company';
+import { useCompany } from '../../../hooks/company';
 
 const SearchForm: React.FC = () => {
   const [search, setSearch] = useState('');
 
-  const { companiesRepository, handleCompanies } = useContext(Context);
+  const {
+    companiesRepository,
+    handleSearchedCompanies,
+    handleCurrentCompany,
+    setCompaniesRepository,
+  } = useCompany();
+
+  useEffect(() => {
+    return () => {
+      setCompaniesRepository([]);
+    };
+  }, [setCompaniesRepository]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const response = await api.get('/company', {
-      params: {
-        name: search,
-      },
-    });
-
-    handleCompanies(response.data);
+    await handleSearchedCompanies(search);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +51,10 @@ const SearchForm: React.FC = () => {
             return (
               <Fragment key={company._id}>
                 {company.isActive ? (
-                  <Link to={`/editar/${company._id}`}>
+                  <Link
+                    to={`/editar/${company._id}`}
+                    onClick={() => handleCurrentCompany(company)}
+                  >
                     <StartupCard
                       isActive={company.isActive}
                       name={company.name}
@@ -68,7 +75,9 @@ const SearchForm: React.FC = () => {
           })}
         </SearchContainer>
         <Link to="/criar-startup">
-          <Button type="button">adicionar startups</Button>
+          {companiesRepository.length ? (
+            <Button type="button">adicionar startups</Button>
+          ) : null}
         </Link>
       </Form>
     </Container>
