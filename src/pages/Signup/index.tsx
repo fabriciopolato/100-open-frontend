@@ -2,10 +2,15 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { useHistory } from 'react-router-dom';
 import { Container } from './styles';
 import { SignForm } from '../../components/Forms';
+import { useAuth } from '../../hooks/auth';
 
 const Signup: React.FC = () => {
+  const history = useHistory();
+  const { signUp } = useAuth();
+
   const {
     handleChange,
     handleBlur,
@@ -22,8 +27,14 @@ const Signup: React.FC = () => {
       username: '',
       password: '',
     },
-    onSubmit: () => {
-      console.log(values, 'deu bom!');
+    onSubmit: async ({ username, password }) => {
+      try {
+        await signUp({ username, password });
+
+        history.push('/');
+      } catch (error) {
+        console.log(error);
+      }
     },
     validationSchema: yup.object().shape({
       username: yup.string().required('Username é obrigatório'),
