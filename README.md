@@ -1,6 +1,6 @@
 # Desafio 100 Open Startups
 
-![Desafio 100 Open Startups ] (/public/open.png)
+![Desafio 100 Open Startups ](/public/open.png)
 
 ## About The Project
 
