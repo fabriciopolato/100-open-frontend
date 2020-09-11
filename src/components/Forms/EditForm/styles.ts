@@ -15,9 +15,13 @@ export const StartupInfo = styled.div`
   }
 
   p {
-    color: #939393;
-    font-size: 16px;
+    color: #bebebe;
     font-weight: 500;
+  }
+
+  span {
+    color: #a5a5a5;
+    font-weight: bold;
   }
 
   button {
@@ -51,4 +55,26 @@ export const StyledLoader = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+export const StyledCities = styled.ul`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: #eeeeee solid 2px;
+  padding: 8px;
+  margin-bottom: 20px;
+  height: 150px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`;
+
+export const StyledButton = styled.button`
+  all: unset;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  text-decoration: underline;
+  color: blue;
+  top: 0;
 `;

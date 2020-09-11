@@ -29,6 +29,7 @@
         "prettier"
     ],
     "rules": {
+        "react/jsx-one-expression-per-line": "off",
         "no-underscore-dangle":"off",
         "@typescript-eslint/no-unused-vars": [
             "off"

@@ -1,28 +1,21 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import BounceLoader from 'react-spinners/BounceLoader';
 import * as yup from 'yup';
-import { Container, StyledLoader } from './styles';
+import { Container, StyledLoader, StyledCities, StyledButton } from './styles';
 import Form from '../Form';
 import { Input, Button } from '../..';
 import { api, geoNamesApi } from '../../../services/api';
 import { useCompany } from '../../../hooks/company';
-
-interface IGeoLocation {
-  name: string;
-  countryName: string;
-  adminCodes1: {
-    ISO3166_2: string;
-  };
-}
+import { IGeoNamesLocation, GeoNamesApiResponse } from '../../../interfaces';
+import { useGeoNames } from '../../../hooks/geonames';
 
 const AddForm: React.FC = () => {
   const history = useHistory();
   const { isLoading, setIsLoading } = useCompany();
-
-  const [geoNamesCities, setGeoNamesCities] = useState<IGeoLocation[]>([]);
+  const { setGeoNamesCities, geoNamesCities } = useGeoNames();
 
   const handleGeoNamesApi = async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -33,12 +26,13 @@ const AddForm: React.FC = () => {
           params: { q: value },
         });
 
-        const formattedData = response.data.geonames.map(
-          (location: IGeoLocation) => {
+        const formattedData: IGeoNamesLocation[] = response.data.geonames.map(
+          (location: GeoNamesApiResponse) => {
             return {
-              name: location.name,
-              countryName: location.countryName,
-              adminCodes1: location.adminCodes1.ISO3166_2,
+              id: location.geonameId,
+              city: location.name,
+              country: location.countryName,
+              state: location.adminCodes1.ISO3166_2,
             };
           },
         );
@@ -57,6 +51,7 @@ const AddForm: React.FC = () => {
     values,
     errors,
     touched,
+    setFieldValue,
   } = useFormik({
     initialValues: {
       name: '',
@@ -66,12 +61,14 @@ const AddForm: React.FC = () => {
     },
     onSubmit: async ({ name, description, type, location }) => {
       setIsLoading(true);
+      const [city, state, country] = location.replace(',', ' -').split(' - ');
+
       try {
         await api.post('/company', {
           name,
           description,
           type,
-          location,
+          location: { city, state, country },
         });
       } catch (error) {
         console.log(error);
@@ -136,7 +133,25 @@ const AddForm: React.FC = () => {
           label="Localização"
           value={values.location}
         />
-        {}
+        {geoNamesCities.length ? (
+          <StyledCities>
+            {geoNamesCities.map(location => (
+              <li key={location.id}>
+                <StyledButton
+                  onClick={() => {
+                    setFieldValue(
+                      'location',
+                      `${location.city}, ${location.state} - ${location.country}`,
+                    );
+                  }}
+                  type="button"
+                >
+                  {location.city}, {location.state} - {location.country}
+                </StyledButton>
+              </li>
+            ))}
+          </StyledCities>
+        ) : null}
         {errors.location && touched.location ? <p>{errors.location}</p> : null}
 
         {isLoading ? (
