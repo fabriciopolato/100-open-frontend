@@ -49,11 +49,9 @@ const CompanyProvider: React.FC = ({ children }) => {
 
   const handleInactivity = async (id: string) => {
     setIsLoading(true);
-    try {
-      await api.put(`/company/vote/${id}`);
-    } catch (error) {
-      console.log(error);
-    }
+
+    await api.put(`/company/vote/${id}`);
+
     // setTimeout used only to show Loader on screen
     setTimeout(() => {
       setIsLoading(false);

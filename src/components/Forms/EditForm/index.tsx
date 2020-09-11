@@ -48,16 +48,18 @@ const EditForm: React.FC = () => {
     },
     onSubmit: async ({ companyType, companyLocation }) => {
       setIsLoadingEdit(true);
-      try {
-        await api.put(`/company/${_id}`, {
-          type: companyType,
-          location: companyLocation,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      const [city, state, country] = companyLocation
+        .replace(',', ' -')
+        .split(' - ');
+
+      await api.put(`/company/${_id}`, {
+        type: companyType,
+        location: { city, state, country },
+      });
+
       setTimeout(() => {
         setIsLoadingEdit(false);
+        setGeoNamesCities([]);
         history.push('/');
       }, 1500);
     },
@@ -66,28 +68,24 @@ const EditForm: React.FC = () => {
   const handleGeoNamesApi = async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setGeoNamesCities([]);
-    try {
-      if (value.length >= 3) {
-        const response = await geoNamesApi.get('', {
-          params: { q: value },
-        });
 
-        const formattedData: IGeoNamesLocation[] = response.data.geonames.map(
-          (newLocation: GeoNamesApiResponse) => {
-            return {
-              id: newLocation.geonameId,
-              city: newLocation.name,
-              country: newLocation.countryName,
-              state: newLocation.adminCodes1.ISO3166_2,
-            };
-          },
-        );
-        console.log(response.data.geonames);
+    if (value.length >= 3) {
+      const response = await geoNamesApi.get('', {
+        params: { q: value },
+      });
 
-        setGeoNamesCities(formattedData);
-      }
-    } catch (error) {
-      console.log(error);
+      const formattedData: IGeoNamesLocation[] = response.data.geonames.map(
+        (newLocation: GeoNamesApiResponse) => {
+          return {
+            id: newLocation.geonameId,
+            city: newLocation.name,
+            country: newLocation.countryName,
+            state: newLocation.adminCodes1.ISO3166_2,
+          };
+        },
+      );
+
+      setGeoNamesCities(formattedData);
     }
   };
 

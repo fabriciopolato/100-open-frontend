@@ -20,27 +20,24 @@ const AddForm: React.FC = () => {
   const handleGeoNamesApi = async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setGeoNamesCities([]);
-    try {
-      if (value.length >= 3) {
-        const response = await geoNamesApi.get('', {
-          params: { q: value },
-        });
 
-        const formattedData: IGeoNamesLocation[] = response.data.geonames.map(
-          (location: GeoNamesApiResponse) => {
-            return {
-              id: location.geonameId,
-              city: location.name,
-              country: location.countryName,
-              state: location.adminCodes1.ISO3166_2,
-            };
-          },
-        );
+    if (value.length >= 3) {
+      const response = await geoNamesApi.get('', {
+        params: { q: value },
+      });
 
-        setGeoNamesCities(formattedData);
-      }
-    } catch (error) {
-      console.log(error);
+      const formattedData: IGeoNamesLocation[] = response.data.geonames.map(
+        (location: GeoNamesApiResponse) => {
+          return {
+            id: location.geonameId,
+            city: location.name,
+            country: location.countryName,
+            state: location.adminCodes1.ISO3166_2,
+          };
+        },
+      );
+
+      setGeoNamesCities(formattedData);
     }
   };
 
@@ -63,18 +60,16 @@ const AddForm: React.FC = () => {
       setIsLoading(true);
       const [city, state, country] = location.replace(',', ' -').split(' - ');
 
-      try {
-        await api.post('/company', {
-          name,
-          description,
-          type,
-          location: { city, state, country },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      await api.post('/company', {
+        name,
+        description,
+        type,
+        location: { city, state, country },
+      });
+
       setTimeout(() => {
         setIsLoading(false);
+        setGeoNamesCities([]);
         history.push('/');
       }, 1500);
     },

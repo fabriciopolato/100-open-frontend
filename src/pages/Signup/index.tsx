@@ -34,7 +34,6 @@ const Signup: React.FC = () => {
         await signUp({ username, password });
       } catch (error) {
         setFieldError('general', error.message);
-        console.log(error);
       }
       setTimeout(() => {
         setIsLoading(false);

@@ -27,11 +27,9 @@ const Login: React.FC = () => {
     },
     onSubmit: async ({ username, password }) => {
       setIsLoading(true);
-      try {
-        await signIn({ username, password });
-      } catch (error) {
-        console.log(error);
-      }
+
+      await signIn({ username, password });
+
       setTimeout(() => {
         setIsLoading(false);
         history.push('/');
