@@ -53,6 +53,7 @@ const Signup: React.FC = () => {
     <Container>
       {/* <h1>SIGN UP</h1> */}
       <SignForm
+        linkText="login"
         signText="SIGN UP"
         buttonText="Cadastrar"
         handleChange={handleChange}

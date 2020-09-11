@@ -47,6 +47,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <SignForm
+        linkText="signup"
         signText="LOGIN"
         buttonText="Entrar"
         handleChange={handleChange}

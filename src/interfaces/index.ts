@@ -37,6 +37,7 @@ export interface GeoNamesApiResponse {
   };
 }
 export interface ISignFormProps {
+  linkText: string;
   signText: string;
   buttonText: string;
   handleSignSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;

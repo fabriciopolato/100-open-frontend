@@ -7,8 +7,14 @@ export const Container = styled.div`
   max-width: 400px;
 
   button {
-    margin-top: 15px;
+    margin: 15px 0;
     width: 100%;
+  }
+
+  form {
+    a {
+      font-size: 20px;
+    }
   }
 `;
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import BounceLoader from 'react-spinners/BounceLoader';
+import { Link } from 'react-router-dom';
 import { Container, StyledError, StyledLoader } from './styles';
 import { Input, Button } from '../..';
 import { ISignFormProps } from '../../../interfaces';
 import { useCompany } from '../../../hooks/company';
 
 const SignForm: React.FC<ISignFormProps> = ({
+  linkText,
   signText,
   buttonText,
   handleSignSubmit,
@@ -47,6 +49,9 @@ const SignForm: React.FC<ISignFormProps> = ({
         ) : (
           <Button type="submit">{buttonText}</Button>
         )}
+        <Link id="link" to={`/${linkText}`}>
+          {linkText}
+        </Link>
       </form>
     </Container>
   );
