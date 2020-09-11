@@ -22,6 +22,11 @@ export const Container = styled.div<IProps>`
     color: ${props => !props.isActive && '#b0b0b0'};
   }
 
+  p {
+    color: #bebebe;
+    font-weight: 500;
+  }
+
   span {
     color: #a5a5a5;
     font-weight: bold;

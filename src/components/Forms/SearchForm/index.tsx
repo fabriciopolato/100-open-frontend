@@ -74,6 +74,7 @@ const SearchForm: React.FC = () => {
           ) : error ? (
             <StyledError>{error}</StyledError>
           ) : (
+            companiesRepository &&
             companiesRepository.map(company => {
               return (
                 <Fragment key={company._id}>
@@ -83,6 +84,7 @@ const SearchForm: React.FC = () => {
                       onClick={() => handleCurrentCompany(company)}
                     >
                       <StartupCard
+                        location={company.location}
                         isActive={company.isActive}
                         name={company.name}
                         description={company.description}
@@ -91,6 +93,7 @@ const SearchForm: React.FC = () => {
                     </Link>
                   ) : (
                     <StartupCard
+                      location={company.location}
                       isActive={company.isActive}
                       name={company.name}
                       description={company.description}
@@ -104,7 +107,7 @@ const SearchForm: React.FC = () => {
         </SearchContainer>
         {!isLoading && (
           <Link to="/criar-startup">
-            {companiesRepository.length || error ? (
+            {(companiesRepository && companiesRepository.length) || error ? (
               <Button type="button">adicionar startups</Button>
             ) : null}
           </Link>
