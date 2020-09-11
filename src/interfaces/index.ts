@@ -10,7 +10,7 @@ export interface ICompany {
   name: string;
   type: string;
   description?: string;
-  location?: ILocation;
+  location: ILocation;
   isActive: boolean;
   votesForInactivity: string[];
 }
@@ -21,6 +21,21 @@ export interface ILocation {
   country: string;
 }
 
+export interface IGeoNamesLocation {
+  id: string;
+  city: string;
+  state: string;
+  country: string;
+}
+
+export interface GeoNamesApiResponse {
+  geonameId: number;
+  name: string;
+  countryName: string;
+  adminCodes1: {
+    ISO3166_2: string;
+  };
+}
 export interface ISignFormProps {
   signText: string;
   buttonText: string;
